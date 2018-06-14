@@ -1,1 +1,2 @@
 aVerSiAnda(siAnda).
+gotNoHome(cantGoHome).
