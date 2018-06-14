@@ -1,1 +1,1 @@
-
+aVerSiAnda(siAnda).
