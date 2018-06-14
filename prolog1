@@ -1,0 +1,53 @@
+%mira(Serie, Persona)
+mira(himym, juan).
+mira(futurama, juan).
+mira(got, juan).
+mira(starWars, nico).
+mira(starWars, maiu).
+mira(onePiece, maiu).
+mira(got, maiu).
+mira(got, nico).
+mira(hoc, gaston).
+
+%esPopular(Serie)
+esPopular(got).
+esPopular(hoc).
+esPopular(starWars).
+
+%quiereVer(Persona, Serie)
+quiereVer(juan, hoc).
+quiereVer(aye, got).
+quiereVer(gaston, himym).
+
+%episodioTemporada(Serie, Temporada, Episodios)
+episodiosTemporada(got, tercera, 12).
+episodiosTemporada(got, segunda, 10).
+episodiosTemporada(himym, primera, 23).
+episodiosTemporada(drHouse, octava, 16).
+
+%paso(Serie, Temporada, Episodio, Lo que paso)
+paso(futurama, 2, 3, muerte(seymourDiera)).
+paso(starWars, 10, 9, muerte(emperor)).
+paso(starWars, 1, 2, relacion(parentesco, anakin, rey)).
+paso(starWars, 3, 2, relacion(parentesco, vader, luke)).
+paso(himym, 1, 1, relacion(amorosa, ted, robin)).
+paso(himym, 4, 3, relacion(amorosa, swarley, robin)).
+paso(got, 4, 5, relacion(amistad, tyrion, dragon)).
+
+%leDijo/4
+leDijo(gaston, maiu, got, relacion(amistad, tyrion, dragon)).
+leDijo(nico, maiu, starWars, relacion(parentesco, vader, luke)).
+leDijo(nico, juan, got, muerte(tyrion)). 
+leDijo(aye, juan, got, relacion(amistad, tyrion, john)).
+leDijo(aye, maiu, got, relacion(amistad, tyrion, john)).
+leDijo(aye, gaston, got, relacion(amistad, tyrion, dragon)).
+
+
+esSpoiler(Serie, Spoiler):-
+	leDijo(_, _, Serie, Spoiler) == paso(Serie, _, _, Spoiler).
+	
+
+
+
+
+
