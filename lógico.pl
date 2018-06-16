@@ -65,6 +65,11 @@ leSpoileo(Spoilero, Spoileado, SerieSpoileada) :-
 
 %televidenteResponsable/1
 televidenteResponsable(Televidente) :-
+	mira(_, Televidente),
+	not(leSpoileo(Televidente, _, _)).
+
+televidenteResponsable(Televidente) :-
+	quiereVer(Televidente, _),
 	not(leSpoileo(Televidente, _, _)).
 
 %vieneZafando/2
@@ -111,11 +116,11 @@ esPopularOInteresante(Serie) :-
 	:- end_tests(lesSpoilearon).
 
 	:- begin_tests(sonTelevidentesResponsables).
-		test(juanEsTelevidenteResponsable) :-
+		test(juanEsTelevidenteResponsable, nondet) :-
 			televidenteResponsable(juan).
 		test(ayeEsTelevidenteResponsable) :-
 			televidenteResponsable(aye).
-		test(maiuEsTelevidenteResponsable) :-
+		test(maiuEsTelevidenteResponsable, nondet) :-
 			televidenteResponsable(maiu).
 		test(nicoNoEsTelevidenteResponsable, fail) :-
 			televidenteResponsable(nico).
