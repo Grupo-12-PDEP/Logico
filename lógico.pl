@@ -95,11 +95,11 @@ esPopularOInteresante(Serie) :-
 	:- begin_tests(sonSpoiler).
 		test(esSpoilerLaMuerteDeEmperorParaStarWars, nondet) :-
 			esSpoiler(starWars, muerte(emperor)).
-		test(noEsSpoilerLaMuerteDePedroParaStarWars, fail, nondet) :-
+		test(noEsSpoilerLaMuerteDePedroParaStarWars, fail) :-
 			esSpoiler(starWars, muerte(pedro)).
 		test(esSpoilerElPerentescoEntreAnakinYElReyDeStarWars, nondet) :-
 			esSpoiler(starWars, relacion(parentesco, anakin, rey)).
-		test(noEsSpoilerElParentescoEntreAnakinYLavessiDeStarWars, fail, nondet) :-
+		test(noEsSpoilerElParentescoEntreAnakinYLavessiDeStarWars, fail) :-
 			esSpoiler(starWars, relacion(parentesco, anakin, lavessi)).
 	:- end_tests(sonSpoiler).
 
@@ -124,7 +124,7 @@ esPopularOInteresante(Serie) :-
 	:- end_tests(sonTelevidentesResponsables).
 
 	:-begin_tests(vienenZafando).
-		test(maiuNoVieneZafandoConNingunaSerie, fail, nondet) :-
+		test(maiuNoVieneZafandoConNingunaSerie, fail) :-
 			vieneZafando(maiu, _).
 		test(juanVieneZafandoConHowIMetYourMother, nondet) :-
 			vieneZafando(juan, himym).
