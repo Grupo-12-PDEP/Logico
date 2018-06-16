@@ -97,46 +97,34 @@ esPopularOInteresante(Serie) :-
 
 % "Testing primera entrega."
 
-	:- begin_tests(sonSpoiler).
-		test(esSpoilerLaMuerteDeEmperorParaStarWars, nondet) :-
-			esSpoiler(starWars, muerte(emperor)).
-		test(noEsSpoilerLaMuerteDePedroParaStarWars, fail) :-
-			esSpoiler(starWars, muerte(pedro)).
-		test(esSpoilerElPerentescoEntreAnakinYElReyDeStarWars, nondet) :-
-			esSpoiler(starWars, relacion(parentesco, anakin, rey)).
-		test(noEsSpoilerElParentescoEntreAnakinYLavessiDeStarWars, fail) :-
-			esSpoiler(starWars, relacion(parentesco, anakin, lavessi)).
-	:- end_tests(sonSpoiler).
+:- begin_tests(sonSpoiler).
+	test(esSpoilerLaMuerteDeEmperorParaStarWars, nondet) :-
+		esSpoiler(starWars, muerte(emperor)).
+	test(noEsSpoilerLaMuerteDePedroParaStarWars, fail) :-
+		esSpoiler(starWars, muerte(pedro)).
+	test(esSpoilerElPerentescoEntreAnakinYElReyDeStarWars, nondet) :-
+		esSpoiler(starWars, relacion(parentesco, anakin, rey)).
+	test(noEsSpoilerElParentescoEntreAnakinYLavessiDeStarWars, fail) :-
+		esSpoiler(starWars, relacion(parentesco, anakin, lavessi)).
+:- end_tests(sonSpoiler).
 
 	:- begin_tests(lesSpoilearon).
-		test(gastonLeSpoileoAMaiuLaAmistadEntreTyrionYElDragonDeGameOfThrones, nondet) :-
-			leSpoileo(gaston, maiu, got).
-		test(nicoLeSpoileoAMaiuElParentescoEntreDarthVaderYLukeSkywalkerDeStarWars, nondet) :-
-			leSpoileo(nico, maiu, starWars).
+		test(quienesLeSpoilearonAMaiu, set(Spoileros == [nico, gaston])) :-
+			leSpoileo(Spoileros, maiu, _).
 	:- end_tests(lesSpoilearon).
 
 	:- begin_tests(sonTelevidentesResponsables).
-		test(juanEsTelevidenteResponsable, nondet) :-
-			televidenteResponsable(juan).
-		test(ayeEsTelevidenteResponsable) :-
-			televidenteResponsable(aye).
-		test(maiuEsTelevidenteResponsable, nondet) :-
-			televidenteResponsable(maiu).
-		test(nicoNoEsTelevidenteResponsable, fail) :-
-			televidenteResponsable(nico).
-		test(gastonNoEsTelevidenteResponsable, fail) :-
-			televidenteResponsable(gaston).
+		test(televidentesResponsables, set(Televidentes == [juan, aye, maiu])) :-
+			televidenteResponsable(Televidentes).
+		test(televidentesNoResponsables, fail, set(Televidentes == [gaston, nico])) :-
+			televidenteResponsable(Televidentes).
 	:- end_tests(sonTelevidentesResponsables).
 
 	:-begin_tests(vienenZafando).
 		test(maiuNoVieneZafandoConNingunaSerie, fail) :-
 			vieneZafando(maiu, _).
-		test(juanVieneZafandoConHowIMetYourMother, nondet) :-
-			vieneZafando(juan, himym).
-		test(juanVieneZafandoConGameOfThrones, nondet) :-
-			vieneZafando(juan, got).
-		test(juanVieneZafandoConHouseOfCards, nondet) :-
-			vieneZafando(juan, hoc).
+		test(seriesConLasQueVieneZafandoJuan, true(Series == [himym, got, hoc]) :-
+			vieneZafando(juan, Series).
 		test(nicoVieneZafandoConStarWars, nondet) :-
 			vieneZafando(nico, starWars).
 	:- end_tests(vienenZafando).
