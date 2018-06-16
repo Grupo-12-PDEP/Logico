@@ -84,3 +84,8 @@ esPopularOInteresante(Serie) :-
 esPopularOInteresante(Serie) :-
 	paso(Serie, _, _, Algo),
 	Algo \= relacion(amistad, _, _).
+	
+%Revisar esta útlima función, quizás conviene hacerlo con varias clausulas y por universo cerrado excluir a amistad.
+
+
+
