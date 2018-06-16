@@ -97,16 +97,16 @@ esPopularOInteresante(Serie) :-
 
 % "Testing primera entrega."
 
-:- begin_tests(sonSpoiler).
-	test(esSpoilerLaMuerteDeEmperorParaStarWars, nondet) :-
-		esSpoiler(starWars, muerte(emperor)).
-	test(noEsSpoilerLaMuerteDePedroParaStarWars, fail) :-
-		esSpoiler(starWars, muerte(pedro)).
-	test(esSpoilerElPerentescoEntreAnakinYElReyDeStarWars, nondet) :-
-		esSpoiler(starWars, relacion(parentesco, anakin, rey)).
-	test(noEsSpoilerElParentescoEntreAnakinYLavessiDeStarWars, fail) :-
-		esSpoiler(starWars, relacion(parentesco, anakin, lavessi)).
-:- end_tests(sonSpoiler).
+	:- begin_tests(sonSpoiler).
+		test(esSpoilerLaMuerteDeEmperorParaStarWars, nondet) :-
+			esSpoiler(starWars, muerte(emperor)).
+		test(noEsSpoilerLaMuerteDePedroParaStarWars, fail) :-
+			esSpoiler(starWars, muerte(pedro)).
+		test(esSpoilerElPerentescoEntreAnakinYElReyDeStarWars, nondet) :-
+			esSpoiler(starWars, relacion(parentesco, anakin, rey)).
+		test(noEsSpoilerElParentescoEntreAnakinYLavessiDeStarWars, fail) :-
+			esSpoiler(starWars, relacion(parentesco, anakin, lavessi)).
+	:- end_tests(sonSpoiler).
 
 	:- begin_tests(lesSpoilearon).
 		test(quienesLeSpoilearonAMaiu, set(Spoileros == [nico, gaston])) :-
@@ -116,14 +116,14 @@ esPopularOInteresante(Serie) :-
 	:- begin_tests(sonTelevidentesResponsables).
 		test(televidentesResponsables, set(Televidentes == [juan, aye, maiu])) :-
 			televidenteResponsable(Televidentes).
-		test(televidentesNoResponsables, fail, set(Televidentes == [gaston, nico])) :-
+		test(televidentesNoResponsables, set(Televidentes == [gaston, nico]), fail) :-
 			televidenteResponsable(Televidentes).
 	:- end_tests(sonTelevidentesResponsables).
 
 	:-begin_tests(vienenZafando).
 		test(maiuNoVieneZafandoConNingunaSerie, fail) :-
 			vieneZafando(maiu, _).
-		test(seriesConLasQueVieneZafandoJuan, true(Series == [himym, got, hoc]) :-
+		test(seriesConLasQueVieneZafandoJuan, set(Series == [himym, got, hoc]) :-
 			vieneZafando(juan, Series).
 		test(nicoVieneZafandoConStarWars, nondet) :-
 			vieneZafando(nico, starWars).
