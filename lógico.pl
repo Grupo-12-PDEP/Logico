@@ -49,7 +49,7 @@ leDijo(aye, gaston, got, relacion(amistad, tyrion, dragon)).
 %esSpoiler/2
 esSpoiler(Serie, Spoiler):-
 	paso(Serie, _, _, Spoiler).
-% "En este enunciado se pueden hacer tanto consultas específicas como existenciales gracias a la inversibilidad."
+% "En este enunciado se pueden hacer tanto consultas específicas como existenciales gracias a la inversibilidad y el polimorfismo de la variable Spoiler que sirve tanto para functores de anidación 1 (muerte) y anidación 3 (relacion)."
 
 %leSpoileo/3
 leSpoileo(Spoilero, Spoileado, SerieSpoileada) :-
@@ -61,7 +61,7 @@ leSpoileo(Spoilero, Spoileado, SerieSpoileada) :-
 	esSpoiler(SerieSpoileada, Spoiler),
 	leDijo(Spoilero, Spoileado, SerieSpoileada, Spoiler),
 	quiereVer(Spoileado, SerieSpoileada).
-% "Este enunciado también puede hacer tanto consultas existenciales como específicas ya que también es inversible."
+% "Este enunciado también puede hacer tanto consultas existenciales como específicas ya que también es inversible y la variable Spoiler es polimórfica."
 
 %televidenteResponsable/1
 televidenteResponsable(Televidente) :-
@@ -82,10 +82,56 @@ esPopularOInteresante(Serie) :-
 	esPopular(Serie).
 
 esPopularOInteresante(Serie) :-
-	paso(Serie, _, _, Algo),
-	Algo \= relacion(amistad, _, _).
-	
-%Revisar esta útlima función, quizás conviene hacerlo con varias clausulas y por universo cerrado excluir a amistad.
+	paso(Serie, _, _, muerte(_)).
 
+esPopularOInteresante(Serie) :-
+	paso(Serie, _, _, relacion(amorosa, _, _)).
 
+esPopularOInteresante(Serie) :-
+	paso(Serie, _, _, relacion(parentesco, _, _)).
 
+% "Testing primera entrega."
+
+	:- begin_tests(sonSpoiler).
+		test(esSpoilerLaMuerteDeEmperorParaStarWars, nondet) :-
+			esSpoiler(starWars, muerte(emperor)).
+		test(noEsSpoilerLaMuerteDePedroParaStarWars, fail, nondet) :-
+			esSpoiler(starWars, muerte(pedro)).
+		test(esSpoilerElPerentescoEntreAnakinYElReyDeStarWars, nondet) :-
+			esSpoiler(starWars, relacion(parentesco, anakin, rey)).
+		test(noEsSpoilerElParentescoEntreAnakinYLavessiDeStarWars, fail, nondet) :-
+			esSpoiler(starWars, relacion(parentesco, anakin, lavessi)).
+	:- end_tests(sonSpoiler).
+
+	:- begin_tests(lesSpoilearon).
+		test(gastonLeSpoileoAMaiuLaAmistadEntreTyrionYElDragonDeGameOfThrones, nondet) :-
+			leSpoileo(gaston, maiu, got).
+		test(nicoLeSpoileoAMaiuElParentescoEntreDarthVaderYLukeSkywalkerDeStarWars, nondet) :-
+			leSpoileo(nico, maiu, starWars).
+	:- end_tests(lesSpoilearon).
+
+	:- begin_tests(sonTelevidentesResponsables).
+		test(juanEsTelevidenteResponsable) :-
+			televidenteResponsable(juan).
+		test(ayeEsTelevidenteResponsable) :-
+			televidenteResponsable(aye).
+		test(maiuEsTelevidenteResponsable) :-
+			televidenteResponsable(maiu).
+		test(nicoNoEsTelevidenteResponsable, fail) :-
+			televidenteResponsable(nico).
+		test(gastonNoEsTelevidenteResponsable, fail) :-
+			televidenteResponsable(gaston).
+	:- end_tests(sonTelevidentesResponsables).
+
+	:-begin_tests(vienenZafando).
+		test(maiuNoVieneZafandoConNingunaSerie, fail, nondet) :-
+			vieneZafando(maiu, _).
+		test(juanVieneZafandoConHowIMetYourMother, nondet) :-
+			vieneZafando(juan, himym).
+		test(juanVieneZafandoConGameOfThrones, nondet) :-
+			vieneZafando(juan, got).
+		test(juanVieneZafandoConHouseOfCards, nondet) :-
+			vieneZafando(juan, hoc).
+		test(nicoVieneZafandoConStarWars, nondet) :-
+			vieneZafando(nico, starWars).
+	:- end_tests(vienenZafando).
