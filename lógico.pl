@@ -75,24 +75,24 @@ televidenteResponsable(Televidente) :-
 %vieneZafando/2
 vieneZafando(Persona, Serie) :-
 	mira(Serie, Persona),
-	esPopularOInteresante(Serie),
+	esPopularOFuerte(Serie),
 	not(leSpoileo(_, Persona, Serie)).
 
 vieneZafando(Persona, Serie) :-
 	quiereVer(Persona, Serie),
-	esPopularOInteresante(Serie),
+	esPopularOFuerte(Serie),
 	not(leSpoileo(_, Persona, Serie)).
 
-esPopularOInteresante(Serie) :-
+esPopularOFuerte(Serie) :-
 	esPopular(Serie).
 
-esPopularOInteresante(Serie) :-
+esPopularOFuerte(Serie) :-
 	paso(Serie, _, _, muerte(_)).
 
-esPopularOInteresante(Serie) :-
+esPopularOFuerte(Serie) :-
 	paso(Serie, _, _, relacion(amorosa, _, _)).
 
-esPopularOInteresante(Serie) :-
+esPopularOFuerte(Serie) :-
 	paso(Serie, _, _, relacion(parentesco, _, _)).
 
 % "Testing primera entrega."
