@@ -109,22 +109,28 @@ esPopularOInteresante(Serie) :-
 	:- end_tests(sonSpoiler).
 
 	:- begin_tests(lesSpoilearon).
-		test(quienesLeSpoilearonAMaiu, set(Spoileros == [nico, gaston])) :-
-			leSpoileo(Spoileros, maiu, _).
+		test(quienesSpoilearon, set(Spoileros == [nico, gaston])) :-
+			leSpoileo(Spoileros, _, _).
 	:- end_tests(lesSpoilearon).
 
 	:- begin_tests(sonTelevidentesResponsables).
 		test(televidentesResponsables, set(Televidentes == [juan, aye, maiu])) :-
 			televidenteResponsable(Televidentes).
-		test(televidentesNoResponsables, set(Televidentes == [gaston, nico]), fail) :-
-			televidenteResponsable(Televidentes).
+		test(gastonNoEsTelevidenteResponsable, fail) :-
+			televidenteResponsable(gaston).
+		test(nicoNoEsTelevidenteResponsable, fail) :-
+			televidenteResponsable(nico).
 	:- end_tests(sonTelevidentesResponsables).
 
-	:-begin_tests(vienenZafando).
+	:- begin_tests(vienenZafando).
 		test(maiuNoVieneZafandoConNingunaSerie, fail) :-
 			vieneZafando(maiu, _).
-		test(seriesConLasQueVieneZafandoJuan, set(Series == [himym, got, hoc]) :-
-			vieneZafando(juan, Series).
+		test(juanVieneZafandoConHowIMetYourMother, nondet) :-
+			vieneZafando(juan, himym).
+		test(juanVieneZafandoConGameOfThrones, nondet) :-
+			vieneZafando(juan, got).
+		test(juanVieneZafandoConHouseOfCards, nondet) :-
+			vieneZafando(juan, hoc).
 		test(nicoVieneZafandoConStarWars, nondet) :-
 			vieneZafando(nico, starWars).
 	:- end_tests(vienenZafando).
