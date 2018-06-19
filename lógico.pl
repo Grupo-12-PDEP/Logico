@@ -23,10 +23,10 @@ quiereVer(aye, got).
 quiereVer(gaston, himym).
 
 %episodioTemporada(Serie, Temporada, Episodios).
-episodiosTemporada(got, tercera, 12).
-episodiosTemporada(got, segunda, 10).
-episodiosTemporada(himym, primera, 23).
-episodiosTemporada(drHouse, octava, 16).
+episodiosTemporada(got, 3, 12).
+episodiosTemporada(got, 2, 10).
+episodiosTemporada(himym, 1, 23).
+episodiosTemporada(drHouse, 8, 16).
 % (*) "Se desconocen los episodios de Mad Men."
 
 %paso(Serie, Temporada, Episodio, Lo que paso).
@@ -55,45 +55,39 @@ esSpoiler(Serie, Spoiler):-
 leSpoileo(Spoilero, Spoileado, SerieSpoileada) :-
 	esSpoiler(SerieSpoileada, Spoiler),
 	leDijo(Spoilero, Spoileado, SerieSpoileada, Spoiler),
-	mira(SerieSpoileada, Spoileado).
-
-leSpoileo(Spoilero, Spoileado, SerieSpoileada) :-
-	esSpoiler(SerieSpoileada, Spoiler),
-	leDijo(Spoilero, Spoileado, SerieSpoileada, Spoiler),
-	quiereVer(Spoileado, SerieSpoileada).
+	miraOQuiereVer(Spoileado, SerieSpoileada).
 % "Este enunciado también puede hacer tanto consultas existenciales como específicas ya que también es inversible y la variable Spoiler es polimórfica."
+
+miraOQuiereVer(Persona, Serie) :-
+	mira(Serie, Persona).
+	
+miraOQuiereVer(Persona, Serie) :-
+	quiereVer(Persona, Serie).
 
 %televidenteResponsable/1
 televidenteResponsable(Televidente) :-
-	mira(_, Televidente),
-	not(leSpoileo(Televidente, _, _)).
-
-televidenteResponsable(Televidente) :-
-	quiereVer(Televidente, _),
+	miraOQuiereVer(Televidente, _),
 	not(leSpoileo(Televidente, _, _)).
 
 %vieneZafando/2
 vieneZafando(Persona, Serie) :-
-	mira(Serie, Persona),
+	miraOQuiereVer(Persona, Serie),
 	esPopularOFuerte(Serie),
 	not(leSpoileo(_, Persona, Serie)).
-
-vieneZafando(Persona, Serie) :-
-	quiereVer(Persona, Serie),
-	esPopularOFuerte(Serie),
-	not(leSpoileo(_, Persona, Serie)).
-
+	
 esPopularOFuerte(Serie) :-
 	esPopular(Serie).
-
+	
 esPopularOFuerte(Serie) :-
-	paso(Serie, _, _, muerte(_)).
+	episodiosTemporada(Serie, _, _),
+	paso(Serie, _, _, _),
+	forall(paso(Serie, Temporada, _, Algo), esFuerte(Algo)).
+	
+esFuerte(muerte(_)).
 
-esPopularOFuerte(Serie) :-
-	paso(Serie, _, _, relacion(amorosa, _, _)).
+esFuerte(relacion(parentesco, _, _)).
 
-esPopularOFuerte(Serie) :-
-	paso(Serie, _, _, relacion(parentesco, _, _)).
+esFuerte(relacion(amorosa, _, _)).
 
 % "Testing primera entrega."
 
@@ -125,12 +119,8 @@ esPopularOFuerte(Serie) :-
 	:- begin_tests(vienenZafando).
 		test(maiuNoVieneZafandoConNingunaSerie, fail) :-
 			vieneZafando(maiu, _).
-		test(juanVieneZafandoConHowIMetYourMother, nondet) :-
-			vieneZafando(juan, himym).
-		test(juanVieneZafandoConGameOfThrones, nondet) :-
-			vieneZafando(juan, got).
-		test(juanVieneZafandoConHouseOfCards, nondet) :-
-			vieneZafando(juan, hoc).
+		test(seriesConLasQueVieneZafandoJuan, set(Series == [himym, got, hoc])) :-
+			vieneZafando(juan, Series).
 		test(nicoVieneZafandoConStarWars, nondet) :-
 			vieneZafando(nico, starWars).
 	:- end_tests(vienenZafando).
