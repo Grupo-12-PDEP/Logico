@@ -60,7 +60,7 @@ leSpoileo(Spoilero, Spoileado, SerieSpoileada) :-
 
 miraOQuiereVer(Persona, Serie) :-
 	mira(Serie, Persona).
-	
+
 miraOQuiereVer(Persona, Serie) :-
 	quiereVer(Persona, Serie).
 
@@ -74,15 +74,15 @@ vieneZafando(Persona, Serie) :-
 	miraOQuiereVer(Persona, Serie),
 	esPopularOFuerte(Serie),
 	not(leSpoileo(_, Persona, Serie)).
-	
+
 esPopularOFuerte(Serie) :-
 	esPopular(Serie).
-	
+
 esPopularOFuerte(Serie) :-
 	episodiosTemporada(Serie, _, _),
-	paso(Serie, _, _, _),
+	paso(Serie, Temporada, _, _),
 	forall(paso(Serie, Temporada, _, Algo), esFuerte(Algo)).
-	
+
 esFuerte(muerte(_)).
 
 esFuerte(relacion(parentesco, _, _)).
