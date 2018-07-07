@@ -1,4 +1,4 @@
-% "Este símbolo (*) representa la prescencia de un factor de desconocemos y/ó no importa por el principio de universo cerrado, seguido de una justificación de su uso."
+﻿% "Este símbolo (*) representa la prescencia de un factor de desconocemos y/ó no importa por el principio de universo cerrado, seguido de una justificación de su uso."
 
 %mira(Serie, Persona).
 mira(himym, juan).
@@ -10,6 +10,7 @@ mira(onePiece, maiu).
 mira(got, maiu).
 mira(got, nico).
 mira(hoc, gaston).
+mira(got, pedro).
 % (*) "Alf no tiene tiempo de ver ninguna."
 
 %esPopular(Serie).
@@ -37,14 +38,26 @@ paso(starWars, 3, 2, relacion(parentesco, vader, luke)).
 paso(himym, 1, 1, relacion(amorosa, ted, robin)).
 paso(himym, 4, 3, relacion(amorosa, swarley, robin)).
 paso(got, 4, 5, relacion(amistad, tyrion, dragon)).
+paso(got, 3, 2, plotTwist(suenio)).
+paso(got, 3, 2, plotTwist(sinPiernas)).
+paso(got, 3, 12, plotTwist(fuego)).
+paso(got, 3, 12, plotTwist(boda)).
+paso(superCampeones, 9, 9, plotTwist(suenio)).
+paso(superCampeones, 9, 9, plotTwist(coma)).
+paso(superCampeones, 9, 9, plotTwist(sinPiernas)).
+paso(drHouse, 8, 7, plotTwist(coma)).
+paso(drHouse, 8, 7, plotTwist(pastillas)).
 
 %leDijo/4
 leDijo(gaston, maiu, got, relacion(amistad, tyrion, dragon)).
 leDijo(nico, maiu, starWars, relacion(parentesco, vader, luke)).
 leDijo(nico, juan, got, muerte(tyrion)).
+leDijo(nico, juan, futurama, muerte(seymourDiera)).
 leDijo(aye, juan, got, relacion(amistad, tyrion, john)).
 leDijo(aye, maiu, got, relacion(amistad, tyrion, john)).
 leDijo(aye, gaston, got, relacion(amistad, tyrion, dragon)).
+leDijo(pedro, aye, got, relacion(amistad, tyrion, dragon)).
+leDijo(pedro, nico, got, relacion(parentesco, tyrion, dragon)).
 
 %esSpoiler/2
 esSpoiler(Serie, Spoiler):-
@@ -89,6 +102,11 @@ esFuerte(relacion(parentesco, _, _)).
 
 esFuerte(relacion(amorosa, _, _)).
 
+esFuerte(plotTwist(Clave)) :-
+	paso(Serie, Temporada, Episodio, plotTwist(Clave)),
+	episodiosTemporada(Serie, Temporada, Episodio),
+	not(esCliche(Clave)).
+
 % "Testing primera entrega."
 
 	:- begin_tests(sonSpoiler).
@@ -103,7 +121,7 @@ esFuerte(relacion(amorosa, _, _)).
 	:- end_tests(sonSpoiler).
 
 	:- begin_tests(lesSpoilearon).
-		test(quienesSpoilearon, set(Spoileros == [nico, gaston])) :-
+		test(quienesSpoilearon, set(Spoileros == [nico, gaston, pedro])) :-
 			leSpoileo(Spoileros, _, _).
 	:- end_tests(lesSpoilearon).
 
@@ -124,3 +142,24 @@ esFuerte(relacion(amorosa, _, _)).
 		test(nicoVieneZafandoConStarWars, nondet) :-
 			vieneZafando(nico, starWars).
 	:- end_tests(vienenZafando).
+
+%malaGente/1
+malaGente(Spoilero) :-
+	leDijo(Spoilero, _, _, _),
+	forall(habloCon(Spoilero, Spoileado), leSpoileo(Spoilero, Spoileado, _)).
+
+habloCon(Spoilero, Spoileado) :-
+	leDijo(Spoilero, Spoileado, _, _).
+
+esCliche(Clave) :-
+	paso(Serie, _, _, plotTwist(Clave)),
+	forall(paso(Serie, _, _, plotTwist(Claves)), pasoEnOtrasSeries(Serie, Claves)).
+
+pasoEnOtrasSeries(Serie, Claves) :-
+	paso(OtraSerie, _, _, plotTwist(Claves)),
+	OtraSerie \= Serie.
+
+%sucesoFuerte/2
+sucesoFuerte(Serie, AlgoFuerte) :-
+	paso(Serie, _, _, AlgoFuerte),
+	esFuerte(AlgoFuerte).
