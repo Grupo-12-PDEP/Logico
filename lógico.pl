@@ -148,7 +148,6 @@ malaGente(Spoilero) :-
 	leDijo(Spoilero, _, _, _),
 	forall(habloCon(Spoilero, Spoileado), leSpoileo(Spoilero, Spoileado, _)).
 
-%no habrai que agregar si es mala gente por spoilear una serie que ni siquiera vio?
 malaGente(Spoilero):-
 	leDijo(Spoilero,_,Serie,_),
 	not(mira(Serie,Spoilero)).
@@ -169,3 +168,51 @@ pasoEnOtrasSeries(Serie, Claves) :-
 sucesoFuerte(Serie, AlgoFuerte) :-
 	paso(Serie, _, _, AlgoFuerte),
 	esFuerte(AlgoFuerte).
+
+
+%3 Punto C: Popularidad
+
+popular(Serie):-
+	popularidad(Serie, PopuDeSerie),
+	popularidad(starWars, PopuDeStarWars),
+	PopuDeSerie >= PopuDeStarWars.
+
+popular(houseOfCards).
+
+popularidad(Serie, Popu):-
+	cuantosMiran(Serie, MiranSerie),
+	cuantasConversaciones(Serie, Conversaciones),
+	Popu is MiranSerie * Conversaciones.
+
+cuantosMiran(Serie, Cantidad):-
+	miran(Serie, Espectadores),
+	length(Espectadores, Cantidad).
+
+miran(Serie, Espectadores):-
+	mira(Serie,_),
+	findall(Espectador, mira(Serie, Espectador), Espectadores).
+
+cuantasConversaciones(Serie, Cantidad):-
+	hablan(Serie, Conversaciones),
+	length(Conversaciones, Cantidad).
+
+hablan(Serie, Conversaciones):-
+	mira(Serie,_),
+	findall(Hablador, leDijo(Hablador, _ , Serie, _), Conversaciones).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%fin
