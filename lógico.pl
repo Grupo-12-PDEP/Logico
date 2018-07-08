@@ -201,9 +201,20 @@ hablan(Serie, Conversaciones):-
 	findall(Hablador, leDijo(Hablador, _ , Serie, _), Conversaciones).
 
 
+%4 Punto D: Amigos son los amigos...
 
+amigo(nico, maiu).
+amigo(maiu, gaston).
+amigo(maiu, juan).
+amigo(juan, aye).
 
+fullSpoil(Spoilero, Spoileado):-
+	leSpoileo(Spoilero, Spoileado, _).
 
+fullSpoil(Spoilero, Spoileado):-
+	amigo(Amigo, Spoileado),
+	fullSpoil(Spoilero, Amigo),
+	Spoilero \= Spoileado.
 
 
 
