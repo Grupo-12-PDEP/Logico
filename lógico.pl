@@ -148,6 +148,12 @@ malaGente(Spoilero) :-
 	leDijo(Spoilero, _, _, _),
 	forall(habloCon(Spoilero, Spoileado), leSpoileo(Spoilero, Spoileado, _)).
 
+%no habrai que agregar si es mala gente por spoilear una serie que ni siquiera vio?
+malaGente(Spoilero):-
+	leDijo(Spoilero,_,Serie,_),
+	not(mira(Serie,Spoilero)).
+
+
 habloCon(Spoilero, Spoileado) :-
 	leDijo(Spoilero, Spoileado, _, _).
 
