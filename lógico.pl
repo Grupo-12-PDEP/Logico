@@ -177,12 +177,12 @@ sucesoFuerte(Serie, AlgoFuerte) :-
 
 %3 Punto C: Popularidad
 
-popular(Serie) :-
+esPopular(Serie) :-
 	popularidad(Serie, PopuDeSerie),
 	popularidad(starWars, PopuDeStarWars),
 	PopuDeSerie >= PopuDeStarWars.
 
-popular(hoc).
+esPopular(hoc).
 
 popularidad(Serie, Popu) :-
 	cuantosMiran(Serie, MiranSerie),
@@ -241,36 +241,42 @@ fullSpoil(Spoilero, Spoileado) :-
 
 
 :- begin_tests(cosasFuertes).
+	test(suenioYSinPiernasSonPalabrasClaveEnGameOfThrones, set( Claves = [suenio, sinPiernas] )) :-
+		paso(got, 3, 2, plotTwist(Claves)).
+	test(fuegoYBodaSonPalabrasClaveEnGot, set( Claves = [boda, fuego] )):-
+		paso(got, 3, 12, plotTwist(Claves)).
+	test(palabrasClaveEnSuperCampeones, set( Claves = [suenio, sinPiernas, coma] )):-
+		paso(superCampeones, 9, 9, plotTwist(Claves)).
+	test(palabrasClaveEnDrHouse, set( Claves = [coma, pastillas] )):-
+		paso(drHouse, 8, 7, plotTwist(Claves)).
 	test(muerteDeSeymourDieraEsFuerte, nondet):-
-			sucesoFuerte(futurama, muerte(seymourDiera)).
-		test(muerteDelEmperadorEsFuerte, nondet):-
-			sucesoFuerte(starWars, muerte(emperor)).
-		test(relacionAnakinReyEsFuerte, nondet):-
-			sucesoFuerte(starWars, relacion(parentesco, anakin, rey)).
-		test(relacionVaderLukeEsFuerte, nondet):-
-			sucesoFuerte(starWars, relacion(parentesco, vader, luke)).
-		test(relacionTedRobinEsFuerte, nondet):-
-			sucesoFuerte(himym, relacion(amorosa, ted, robin)).
-		test(relacionSwarleyRobinEsFuerte, nondet):-
-			sucesoFuerte(himym, relacion(amorosa, swarley, robin)).
-%		test(suenioYSinPiernasSonPalabrasClaveEnGameOfThrones, set(Claves = [suenio, sinPiernas])) :-
-%			sucesoFuerte(got, plotTwist(Claves)).
-		test(bodaYFuegoSonFuertes, set( Claves = [boda, fuego] ):-
-			sucesoFuerte(got, plotTwist(Claves)).
-		test(suenioNoEsFuerte, fail):-
-			sucesoFuerte(got, plotTwist(suenio)).
-		test(comaYPastillasNoEsFuerte, [set( Claves = [coma, pastillas] ), fail):-
-			sucesoFuerte(drHouse, plotTwist(Claves)).
+		sucesoFuerte(futurama, muerte(seymourDiera)).
+	test(muerteDelEmperadorEsFuerte, nondet):-
+		sucesoFuerte(starWars, muerte(emperor)).
+	test(relacionAnakinReyEsFuerte, nondet):-
+		sucesoFuerte(starWars, relacion(parentesco, anakin, rey)).
+	test(relacionVaderLukeEsFuerte, nondet):-
+		sucesoFuerte(starWars, relacion(parentesco, vader, luke)).
+	test(relacionTedRobinEsFuerte, nondet):-
+		sucesoFuerte(himym, relacion(amorosa, ted, robin)).
+	test(relacionSwarleyRobinEsFuerte, nondet):-
+		sucesoFuerte(himym, relacion(amorosa, swarley, robin)).
+	test(bodaYFuegoSonFuertes, set( Claves = [boda, fuego] ):-
+		sucesoFuerte(got, plotTwist(Claves)).
+	test(suenioNoEsFuerte, fail):-
+		sucesoFuerte(got, plotTwist(suenio)).
+	test(comaYPastillasNoEsFuerte, [set( Claves = [coma, pastillas] ), fail):-
+		sucesoFuerte(drHouse, plotTwist(Claves)).
 :- end_tests(cosasFuertes).
 
 
 :- begin_tests(popularidad).
 	test(gotEsPopular, nondet):-
-		popular(got).
+		esPopular(got).
 	test(starWarsEsPopular, nondet):-
-		popular(starWars).
-	test(hocEsPopular):-
-		popular(hoc).
+		esPopular(starWars).
+	test(hocEsPopular, nondet):-
+		esPopular(hoc).
 :- end_tests(popularidad).
 
 
