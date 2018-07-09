@@ -217,14 +217,11 @@ fullSpoil(Spoilero, Spoileado) :-
 	fullSpoil(Spoilero, Amigo),
 	Spoilero \= Spoileado.
 
+% "Testing segunda entrega."
 
-
-
-
-
-
-
-
-
+	:- begin_tests(palabrasClave).
+		test(suenioYSinPiernasSonPalabrasClaveEnGameOfThrones, set(Claves = [suenio, sinPiernas])) :-
+			paso(got, 3, 2, plotTwist(Claves)).
+	:- end_tests(palabrasClave).
 
 %fin
