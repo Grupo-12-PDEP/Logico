@@ -172,6 +172,9 @@ sucesoFuerte(Serie, AlgoFuerte) :-
 	paso(Serie, _, _, AlgoFuerte),
 	esFuerte(AlgoFuerte).
 
+
+
+
 %3 Punto C: Popularidad
 
 popular(Serie) :-
@@ -202,6 +205,8 @@ hablan(Serie, Conversaciones) :-
 	mira(Serie, _),
 	findall(Hablador, leDijo(Hablador, _, Serie, _), Conversaciones).
 
+
+
 %4 Punto D: Amigos son los amigos...
 
 amigo(nico, maiu).
@@ -220,8 +225,68 @@ fullSpoil(Spoilero, Spoileado) :-
 % "Testing segunda entrega."
 
 	:- begin_tests(palabrasClave).
-		test(suenioYSinPiernasSonPalabrasClaveEnGameOfThrones, set(Claves = [suenio, sinPiernas])) :-
-			paso(got, 3, 2, plotTwist(Claves)).
+
 	:- end_tests(palabrasClave).
+
+% "Testing segunda entrega."
+
+:- begin_tests(maloEres).
+	test(gastonEsMalo, nondet):-
+		malaGente(gaston).
+	test(nicoEsMalo, nondet):-
+		malaGente(nico).
+	test(pedroNoEsMalo, fail):-
+		malaGente(pedro).
+:- end_tests(maloEres).
+
+
+:- begin_tests(cosasFuertes).
+	test(muerteDeSeymourDieraEsFuerte, nondet):-
+			sucesoFuerte(futurama, muerte(seymourDiera)).
+		test(muerteDelEmperadorEsFuerte, nondet):-
+			sucesoFuerte(starWars, muerte(emperor)).
+		test(relacionAnakinReyEsFuerte, nondet):-
+			sucesoFuerte(starWars, relacion(parentesco, anakin, rey)).
+		test(relacionVaderLukeEsFuerte, nondet):-
+			sucesoFuerte(starWars, relacion(parentesco, vader, luke)).
+		test(relacionTedRobinEsFuerte, nondet):-
+			sucesoFuerte(himym, relacion(amorosa, ted, robin)).
+		test(relacionSwarleyRobinEsFuerte, nondet):-
+			sucesoFuerte(himym, relacion(amorosa, swarley, robin)).
+%		test(suenioYSinPiernasSonPalabrasClaveEnGameOfThrones, set(Claves = [suenio, sinPiernas])) :-
+%			sucesoFuerte(got, plotTwist(Claves)).
+		test(bodaYFuegoSonFuertes, set( Claves = [boda, fuego] ):-
+			sucesoFuerte(got, plotTwist(Claves)).
+		test(suenioNoEsFuerte, fail):-
+			sucesoFuerte(got, plotTwist(suenio)).
+		test(comaYPastillasNoEsFuerte, [set( Claves = [coma, pastillas] ), fail):-
+			sucesoFuerte(drHouse, plotTwist(Claves)).
+:- end_tests(cosasFuertes).
+
+
+:- begin_tests(popularidad).
+	test(gotEsPopular, nondet):-
+		popular(got).
+	test(starWarsEsPopular, nondet):-
+		popular(starWars).
+	test(hocEsPopular):-
+		popular(hoc).
+:- end_tests(popularidad).
+
+
+:- begin_tests(amigos).
+	test(nicoHizoFullSpoil, set( Amigos = [aye, juan, maiu, gaston] )):-
+		fullSpoil(nico, Amigos).
+	test(gastonHizoFullSpoil, set( Amigos = [maiu, juan, aye] )):-
+		fullSpoil(gaston, Amigos).
+	test(maiuNoHizoFullSpoil, fail):-
+		fullSpoil(maiu,_).
+:- end_tests(amigos).
+
+
+
+
+
+
 
 %fin
