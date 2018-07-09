@@ -241,7 +241,7 @@ fullSpoil(Spoilero, Spoileado) :-
 
 
 :- begin_tests(cosasFuertes).
-	test(suenioYSinPiernasSonPalabrasClaveEnGameOfThrones, set( Claves = [suenio, sinPiernas] )) :-
+	test(suenioYSinPiernasSonPalabrasClaveEnGameOfThrones, set(Claves = [suenio, sinPiernas])) :-
 		paso(got, 3, 2, plotTwist(Claves)).
 	test(fuegoYBodaSonPalabrasClaveEnGot, set( Claves = [boda, fuego] )):-
 		paso(got, 3, 12, plotTwist(Claves)).
@@ -261,11 +261,11 @@ fullSpoil(Spoilero, Spoileado) :-
 		sucesoFuerte(himym, relacion(amorosa, ted, robin)).
 	test(relacionSwarleyRobinEsFuerte, nondet):-
 		sucesoFuerte(himym, relacion(amorosa, swarley, robin)).
-	test(bodaYFuegoSonFuertes, set( Claves = [boda, fuego] ):-
+	test(bodaYFuegoSonFuertes, set( Claves = [boda, fuego] )):-
 		sucesoFuerte(got, plotTwist(Claves)).
 	test(suenioNoEsFuerte, fail):-
 		sucesoFuerte(got, plotTwist(suenio)).
-	test(comaYPastillasNoEsFuerte, [set( Claves = [coma, pastillas] ), fail):-
+	test(comaYPastillasNoEsFuerte, set( Claves = [coma, pastillas] ), fail):-
 		sucesoFuerte(drHouse, plotTwist(Claves)).
 :- end_tests(cosasFuertes).
 
