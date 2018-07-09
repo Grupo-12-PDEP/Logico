@@ -96,11 +96,14 @@ esPopularOFuerte(Serie) :-
 	paso(Serie, Temporada, _, _),
 	forall(paso(Serie, Temporada, _, Algo), esFuerte(Algo)).
 
-esFuerte(muerte(_)).
+esFuerte(muerte(Alguien)) :-
+	paso(_, _, _, muerte(Alguien)).
 
-esFuerte(relacion(parentesco, _, _)).
+esFuerte(relacion(parentesco, Alguien, OtroAlguien)) :-
+	paso(_, _, _, relacion(parentesco, Alguien, OtroAlguien)).
 
-esFuerte(relacion(amorosa, _, _)).
+esFuerte(relacion(amorosa, Alguien, OtroAlguien)) :-
+	paso(_, _, _, relacion(amorosa, Alguien, OtroAlguien)).
 
 esFuerte(plotTwist(Clave)) :-
 	paso(Serie, Temporada, Episodio, plotTwist(Clave)),
@@ -152,7 +155,6 @@ malaGente(Spoilero):-
 	leDijo(Spoilero,_,Serie,_),
 	not(mira(Serie,Spoilero)).
 
-
 habloCon(Spoilero, Spoileado) :-
 	leDijo(Spoilero, Spoileado, _, _).
 
@@ -161,6 +163,7 @@ esCliche(Clave) :-
 	forall(paso(Serie, _, _, plotTwist(Claves)), pasoEnOtrasSeries(Serie, Claves)).
 
 pasoEnOtrasSeries(Serie, Claves) :-
+	paso(Serie, _, _, plotTwist(Claves)),
 	paso(OtraSerie, _, _, plotTwist(Claves)),
 	OtraSerie \= Serie.
 
@@ -169,37 +172,35 @@ sucesoFuerte(Serie, AlgoFuerte) :-
 	paso(Serie, _, _, AlgoFuerte),
 	esFuerte(AlgoFuerte).
 
-
 %3 Punto C: Popularidad
 
-popular(Serie):-
+popular(Serie) :-
 	popularidad(Serie, PopuDeSerie),
 	popularidad(starWars, PopuDeStarWars),
 	PopuDeSerie >= PopuDeStarWars.
 
-popular(houseOfCards).
+popular(hoc).
 
-popularidad(Serie, Popu):-
+popularidad(Serie, Popu) :-
 	cuantosMiran(Serie, MiranSerie),
 	cuantasConversaciones(Serie, Conversaciones),
 	Popu is MiranSerie * Conversaciones.
 
-cuantosMiran(Serie, Cantidad):-
+cuantosMiran(Serie, Cantidad) :-
 	miran(Serie, Espectadores),
 	length(Espectadores, Cantidad).
 
-miran(Serie, Espectadores):-
-	mira(Serie,_),
+miran(Serie, Espectadores) :-
+	mira(Serie, _),
 	findall(Espectador, mira(Serie, Espectador), Espectadores).
 
-cuantasConversaciones(Serie, Cantidad):-
+cuantasConversaciones(Serie, Cantidad) :-
 	hablan(Serie, Conversaciones),
 	length(Conversaciones, Cantidad).
 
-hablan(Serie, Conversaciones):-
-	mira(Serie,_),
-	findall(Hablador, leDijo(Hablador, _ , Serie, _), Conversaciones).
-
+hablan(Serie, Conversaciones) :-
+	mira(Serie, _),
+	findall(Hablador, leDijo(Hablador, _, Serie, _), Conversaciones).
 
 %4 Punto D: Amigos son los amigos...
 
@@ -208,10 +209,10 @@ amigo(maiu, gaston).
 amigo(maiu, juan).
 amigo(juan, aye).
 
-fullSpoil(Spoilero, Spoileado):-
+fullSpoil(Spoilero, Spoileado) :-
 	leSpoileo(Spoilero, Spoileado, _).
 
-fullSpoil(Spoilero, Spoileado):-
+fullSpoil(Spoilero, Spoileado) :-
 	amigo(Amigo, Spoileado),
 	fullSpoil(Spoilero, Amigo),
 	Spoilero \= Spoileado.
