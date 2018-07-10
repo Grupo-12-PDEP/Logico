@@ -152,7 +152,7 @@ malaGente(Spoilero) :-
 	forall(habloCon(Spoilero, Spoileado), leSpoileo(Spoilero, Spoileado, _)).
 
 malaGente(Spoilero):-
-	leDijo(Spoilero,_,Serie,_),
+	leSpoileo(Spoilero,_,Serie),
 	not(mira(Serie,Spoilero)).
 
 habloCon(Spoilero, Spoileado) :-
