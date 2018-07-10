@@ -188,20 +188,19 @@ popularidad(Serie, Popu) :-
 	Popu is MiranSerie * Conversaciones.
 
 cuantosMiran(Serie, Cantidad) :-
-	miran(Serie, Espectadores),
+	cuantosMiranOHablan(Serie, Cantidad, mira(Serie, Espectador)).
+	
+cuantasConversaciones(Serie, Cantidad) :-
+	cuantosMiranOHablan(Serie, Cantidad, leDijo(Espectador, _, Serie, _)).
+	
+cuantosMiranOHablan(Serie, Cantidad, Condicion) :-
+	quienesMiranOHablan(Serie, Espectadores, Condicion),
 	length(Espectadores, Cantidad).
 
-miran(Serie, Espectadores) :-
+quienesMiranOHablan(Serie, Espectadores, Condicion) :-
 	mira(Serie, _),
-	findall(Espectador, mira(Serie, Espectador), Espectadores).
+	findall(Espectador, Condicion, Espectadores).
 
-cuantasConversaciones(Serie, Cantidad) :-
-	hablan(Serie, Conversaciones),
-	length(Conversaciones, Cantidad).
-
-hablan(Serie, Conversaciones) :-
-	mira(Serie, _),
-	findall(Hablador, leDijo(Hablador, _, Serie, _), Conversaciones).
 
 
 
