@@ -182,8 +182,6 @@ esPopular(Serie) :-
 	popularidad(starWars, PopuDeStarWars),
 	PopuDeSerie >= PopuDeStarWars.
 
-esPopular(hoc).
-
 popularidad(Serie, Popu) :-
 	cuantosMiran(Serie, MiranSerie),
 	cuantasConversaciones(Serie, Conversaciones),
@@ -221,12 +219,6 @@ fullSpoil(Spoilero, Spoileado) :-
 	amigo(Amigo, Spoileado),
 	fullSpoil(Spoilero, Amigo),
 	Spoilero \= Spoileado.
-
-% "Testing segunda entrega."
-
-	:- begin_tests(palabrasClave).
-
-	:- end_tests(palabrasClave).
 
 % "Testing segunda entrega."
 
